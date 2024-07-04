@@ -10,27 +10,39 @@ services:
       - ./docker/php.ini:/usr/local/etc/php/php.ini
       - ./docker/000-default.conf:/etc/apache2/sites-available/000-default.conf
     ports:
-      - "8001:80"
       - "8000:8000"
 
     networks:
       - laravel
   
   db:
-    platform: "linux/amd64"
-    image: mysql:5.7
-    # env_file:
-    #   - .env
+    image: mariadb:10.5
+    container_name: mariadb
+    restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: "db_name"
-      MYSQL_USER: "db_user"
-      MYSQL_PASSWORD: "db_password"
+      MYSQL_DATABASE: laravel
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_USER: laravel
+      MYSQL_PASSWORD: secret
     ports:
       - "3306:3306"
     volumes:
-      - dbdata:/var/lib/mysql
+      - db_data:/var/lib/mysql
+    networks:
+      - laravel
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    environment:
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: secret
+    networks:
+      - laravel
+
 networks:
   laravel:
 volumes:
-  dbdata:
+  db_data:
