@@ -38,5 +38,10 @@ Ejecuta las migraciones de la base de datos:
 docker-compose exec app php artisan migrate
 ```
 
-### 5. Acceder a la Aplicación
+### 5.Ejecutamos con:
+```bash
+docker-compose exec app bash -c 'cd laravel && php artisan serve --host=0.0.0.0 --port=8000'
+```
+
+###  Acceder a la Aplicación
 Tu aplicación Laravel debería estar disponible en http://localhost:8000.
