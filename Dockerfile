@@ -1,5 +1,5 @@
 # Use PHP with Apache as the base image
-FROM php:7.2-apache as web
+FROM php:8.3-apache as web
 
 # Configura el directorio de trabajo
 WORKDIR /var/www/html
@@ -35,7 +35,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 ENV COMPOSER_ALLOW_SUPERUSER=1
 
 # Install project dependencies
-RUN composer install
+RUN if [ -f composer.lock ]; then composer install --prefer-dist --no-scripts --no-dev --no-autoloader; else composer update; fi
 
 # Crea los directorios necesarios y asigna los permisos adecuados
 RUN mkdir -p /var/www/html/storage /var/www/html/bootstrap/cache \

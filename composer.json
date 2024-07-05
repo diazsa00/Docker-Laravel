@@ -1,5 +1,7 @@
 {
     "require": {
-        "monolog/monolog": "2.0.*"
+        "php": "^8.0",
+        "monolog/monolog": "^2.2",
+        "laravel/framework": "^8.0"
     }
 }
